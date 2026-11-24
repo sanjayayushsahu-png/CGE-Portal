@@ -1,0 +1,12 @@
+{
+  "name": "cge-staff-management",
+  "version": "1.0.0",
+  "description": "CGE Form 1 & Form 2 (प्रपत्र-01 एवं प्रपत्र-02 गोश्वारा) School, Sankul & Block Staff Census Software",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=22.5.0"
+  }
+}

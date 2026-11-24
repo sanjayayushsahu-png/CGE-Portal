@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CGE प्रपत्र-01 एवं 02 | विद्यालय कर्मचारी नियोजन गणना पोर्टल</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <div class="app-layout">
+    <!-- Light Minimal Sidebar -->
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-logo" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2L3 7v6c0 5.5 3.8 8.8 9 9 5.2-.2 9-3.5 9-9V7l-9-5z"/>
+            <path d="M9 12l2 2 4-4"/>
+          </svg>
+        </div>
+        <div>
+          <h1>CGE Portal</h1>
+          <p id="sidebarDistrict">जिला बेमेतरा • प्रपत्र 01/02</p>
+        </div>
+      </div>
+
+      <div class="nav-section-label">Menu</div>
+      <nav class="nav-menu">
+        <button class="nav-btn active" data-view="dashboard">
+          <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+          डैशबोर्ड
+        </button>
+        <button class="nav-btn" data-view="staff">
+          <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          कर्मचारी (Form 1)
+          <span class="nav-count-pill" id="navStaffBadge">0</span>
+        </button>
+        <button class="nav-btn" data-view="reports">
+          <svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+          वार रिपोर्ट्स
+        </button>
+        <button class="nav-btn" data-view="cge">
+          <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          CGE प्रपत्र-01 व 02
+        </button>
+        <button class="nav-btn" data-view="masters">
+          <svg viewBox="0 0 24 24"><path d="M3 21h18"/><path d="M5 21V7l7-4 7 4v14"/><path d="M9 21v-6h6v6"/></svg>
+          मास्टर डेटा
+        </button>
+
+        <div class="nav-section-label" style="margin-top:8px;">General</div>
+        <button class="nav-btn" data-view="settings">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9c.26.6.85 1 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          सेटिंग्स व बैकअप
+        </button>
+      </nav>
+
+      <!-- Bottom Dark Emerald Quick Export Card -->
+      <div class="sidebar-promo">
+        <div class="sidebar-promo-icon">📊</div>
+        <h4>CGE Excel एक्सपोर्ट</h4>
+        <p id="sidebarCensusDate">गणना तिथि: 31 मार्च, 2024 • प्रपत्र-01 व 02</p>
+        <button class="btn-promo" onclick="window.location.href='/api/export/xlsx?scope=district'">Excel डाउनलोड (.xlsx)</button>
+      </div>
+    </aside>
+
+    <!-- Main Workspace -->
+    <main class="main-content">
+      <!-- Floating Topbar -->
+      <header class="topbar">
+        <div class="global-search">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6b7280" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="text" id="globalSearchInput" placeholder="कर्मचारी नाम, कोड, पद या विद्यालय खोजें..." />
+          <span class="kbd-badge">Ctrl K</span>
+        </div>
+
+        <div class="topbar-right">
+          <a href="/api/backup" class="icon-circle-btn" title="डेटाबेस बैकअप डाउनलोड (.json)">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          </a>
+          <button class="icon-circle-btn" title="CGE प्रपत्र प्रिंट करें" onclick="switchView('cge')">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+          </button>
+          <div class="profile-chip" onclick="switchView('settings')" title="जिला एवं कार्यालय सेटिंग्स">
+            <div class="profile-avatar">CG</div>
+            <div class="profile-info">
+              <div class="profile-name" id="topDistrictName">जिला बेमेतरा</div>
+              <div class="profile-sub" id="topDeptEmail">deo-bemetara.cg@gov.in</div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Dynamic Hero Header -->
+      <div class="page-hero">
+        <div>
+          <h2 id="pageTitle">डैशबोर्ड</h2>
+          <p id="pageSubtitle">सभी विद्यालय, संकुल एवं विकासखंड के कर्मचारियों की CGE प्रपत्र-01 व 02 गणना आसानी से प्रबंधित करें।</p>
+        </div>
+        <div class="hero-actions">
+          <button class="btn btn-primary" onclick="openStaffModal()">+ कर्मचारी जोड़ें</button>
+          <button class="btn" onclick="openImportModal('school')">📤 Excel (.xls/.xlsx) अपलोड</button>
+        </div>
+      </div>
+
+      <!-- VIEW 1: DASHBOARD (Bento Grid) -->
+      <section id="view-dashboard" class="view-section active">
+        <div id="sampleBanner" class="banner" style="display:none;">
+          <div>
+            <strong>नमूना डेटा (Sample Data):</strong> सॉफ्टवेयर को समझने के लिए अभी <span id="sampleCountText">0</span> डेमो कर्मचारी जोड़े गए हैं। वास्तविक प्रविष्टि शुरू करने से पहले इन्हें एक क्लिक में हटा सकते हैं।
+          </div>
+          <button class="btn btn-sm btn-danger" onclick="clearSampleStaff()">डेमो डेटा हटाएं</button>
+        </div>
+
+        <!-- Row 1: 4 KPI Cards -->
+        <div class="kpi-grid" id="dashboardKpis"></div>
+
+        <!-- Row 2: Analytics Pill Chart + Quick CGE Card + Blocks/Sankuls List -->
+        <div class="bento-row-2">
+          <div class="bento-card">
+            <div class="bento-head">
+              <h3>वर्ग एवं श्रेणी विश्लेषण (Category Analytics)</h3>
+              <span class="badge badge-green">Live</span>
+            </div>
+            <div class="pill-chart" id="dashPillChart"></div>
+          </div>
+
+          <div class="bento-card" style="justify-content:space-between;">
+            <div>
+              <div class="bento-head">
+                <h3>नियोजन गणना (CGE)</h3>
+                <span class="badge badge-amber" id="dashCensusBadge">31 मार्च, 2024</span>
+              </div>
+              <div style="font-size:19px; font-weight:800; color:var(--emerald-900); line-height:1.3; margin-bottom:6px;">
+                प्रपत्र-01 एवं प्रपत्र-02 (गोश्वारा)
+              </div>
+              <p style="margin:0; font-size:12.5px; color:var(--text-muted);">
+                स्कूल, संकुल, विकासखंड या जिला स्तर पर आधिकारिक CGE फॉर्मेट तुरंत तैयार करें, सत्यापित करें एवं Excel/PDF में डाउनलोड करें।
+              </p>
+            </div>
+            <button class="btn btn-primary" style="width:100%; margin-top:16px; padding:11px;" onclick="switchView('cge')">
+              📋 CGE प्रपत्र खोलें
+            </button>
+          </div>
+
+          <div class="bento-card">
+            <div class="bento-head">
+              <h3>विकासखंड स्थिति</h3>
+              <button class="btn btn-sm" onclick="switchView('masters')">+ नया</button>
+            </div>
+            <div class="mini-list" id="dashBlockList"></div>
+          </div>
+        </div>
+
+        <!-- Row 3: Recent Staff + Semi-Circular Gauge + Dark Emerald Sync Card -->
+        <div class="bento-row-3">
+          <div class="bento-card">
+            <div class="bento-head">
+              <h3>हालिया कर्मचारी प्रविष्टियाँ</h3>
+              <button class="btn btn-sm" onclick="openStaffModal()">+ कर्मचारी जोड़ें</button>
+            </div>
+            <div class="mini-list" id="dashRecentStaff"></div>
+          </div>
+
+          <div class="bento-card">
+            <div class="bento-head">
+              <h3>नियमित कर्मचारी अनुपात</h3>
+              <span style="font-size:12px; color:var(--text-muted); font-weight:600;">Form 1</span>
+            </div>
+            <div class="gauge-wrap" id="dashGaugeWrap"></div>
+          </div>
+
+          <div class="tracker-card">
+            <div class="tracker-label">CGE गणना सत्यापन</div>
+            <div>
+              <div class="tracker-big" id="trackerTotalCount">00</div>
+              <div class="tracker-sub" id="trackerStatusText">प्रपत्र-01 == प्रपत्र-02 सत्यापित ✓</div>
+            </div>
+            <div class="tracker-actions">
+              <button class="tracker-circle white" title="Excel डाउनलोड (.xlsx)" onclick="window.location.href='/api/export/xlsx?scope=district'">📊</button>
+              <button class="tracker-circle green" title="PDF डाउनलोड (.pdf)" onclick="window.location.href='/api/export/pdf?scope=district&mode=both'">📥</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- VIEW 2: STAFF LIST & ENTRY (FORM 1) -->
+      <section id="view-staff" class="view-section">
+        <div class="card">
+          <div class="card-header">
+            <h3>समस्त कर्मचारी सूची (CGE Form 1 Database)</h3>
+            <div style="display:flex; gap:8px; flex-wrap:wrap;">
+              <button class="btn btn-sm btn-accent" onclick="openImportModal('school')">🏫 विद्यालय Excel अपलोड</button>
+              <button class="btn btn-sm btn-accent" onclick="openImportModal('sankul')">🏢 संकुल Excel अपलोड</button>
+              <button class="btn btn-sm btn-primary" onclick="openStaffModal()">+ नया कर्मचारी जोड़ें</button>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="filter-bar">
+              <div class="form-group">
+                <label>विकासखंड (Block)</label>
+                <select id="fltBlock" class="form-control"></select>
+              </div>
+              <div class="form-group">
+                <label>संकुल (Sankul)</label>
+                <select id="fltSankul" class="form-control"></select>
+              </div>
+              <div class="form-group">
+                <label>विद्यालय (School)</label>
+                <select id="fltSchool" class="form-control"></select>
+              </div>
+              <div class="form-group">
+                <label>नियोजन प्रकार</label>
+                <select id="fltEmpType" class="form-control">
+                  <option value="">सभी (All)</option>
+                  <option value="Regular">Regular (नियमित)</option>
+                  <option value="Non Regular">Non Regular (अनियमित)</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>खोजें (नाम / कोड / पद)</label>
+                <input type="text" id="fltSearch" class="form-control" placeholder="खोजें..." />
+              </div>
+              <div class="form-group" style="flex:0 0 auto;">
+                <button class="btn" onclick="resetStaffFilters()">रीसेट</button>
+              </div>
+            </div>
+
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>क्र.</th>
+                    <th>Emp Code</th>
+                    <th>कर्मचारी का नाम</th>
+                    <th>लिंग / वर्ग</th>
+                    <th>पदनाम (Designation)</th>
+                    <th>श्रेणी (Class)</th>
+                    <th>पे-लेवल</th>
+                    <th>नियोजन प्रकार</th>
+                    <th>स्वीकृत</th>
+                    <th>विद्यालय / संकुल</th>
+                    <th class="text-center sticky-action-col">संपादित / हटाएं (Edit / Delete)</th>
+                  </tr>
+                </thead>
+                <tbody id="staffTbody"></tbody>
+              </table>
+            </div>
+            <div id="staffCountBar" style="margin-top:12px; font-size:12.5px; color:var(--text-muted); font-weight:600;"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- VIEW 3: SCHOOL / SANKUL / BLOCK REPORTS -->
+      <section id="view-reports" class="view-section">
+        <div class="tabs">
+          <button class="tab-btn active" data-report-tab="school">🏫 विद्यालय वार रिपोर्ट</button>
+          <button class="tab-btn" data-report-tab="sankul">🏢 संकुल वार रिपोर्ट</button>
+          <button class="tab-btn" data-report-tab="block">🗺️ विकासखंड वार रिपोर्ट</button>
+        </div>
+
+        <div id="report-school" class="report-pane">
+          <div class="card">
+            <div class="card-header">
+              <h3>विद्यालय वार कर्मचारी सारांश (School-wise Report)</h3>
+              <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                <select id="repSchBlock" class="form-control" style="width:auto;"></select>
+                <select id="repSchSankul" class="form-control" style="width:auto;"></select>
+              </div>
+            </div>
+            <div class="card-body table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>क्र.</th>
+                    <th>विद्यालय का नाम (UDISE)</th>
+                    <th>संकुल</th>
+                    <th>विकासखंड</th>
+                    <th class="text-center">नियमित</th>
+                    <th class="text-center">अनियमित</th>
+                    <th class="text-center">पुरुष</th>
+                    <th class="text-center">महिला</th>
+                    <th class="text-center">SC</th>
+                    <th class="text-center">ST</th>
+                    <th class="text-center">OBC</th>
+                    <th class="text-center">GEN</th>
+                    <th class="text-center">कुल</th>
+                    <th class="text-center">CGE</th>
+                  </tr>
+                </thead>
+                <tbody id="repSchoolTbody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div id="report-sankul" class="report-pane" style="display:none;">
+          <div class="card">
+            <div class="card-header">
+              <h3>संकुल वार कर्मचारी सारांश (Sankul-wise Report)</h3>
+              <select id="repSnkBlock" class="form-control" style="width:auto;"></select>
+            </div>
+            <div class="card-body table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>क्र.</th>
+                    <th>संकुल का नाम</th>
+                    <th>विकासखंड</th>
+                    <th>DDO कोड</th>
+                    <th class="text-center">विद्यालय</th>
+                    <th class="text-center">नियमित</th>
+                    <th class="text-center">अनियमित</th>
+                    <th class="text-center">पुरुष</th>
+                    <th class="text-center">महिला</th>
+                    <th class="text-center">SC</th>
+                    <th class="text-center">ST</th>
+                    <th class="text-center">OBC</th>
+                    <th class="text-center">GEN</th>
+                    <th class="text-center">कुल</th>
+                    <th class="text-center">CGE</th>
+                  </tr>
+                </thead>
+                <tbody id="repSankulTbody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div id="report-block" class="report-pane" style="display:none;">
+          <div class="card">
+            <div class="card-header">
+              <h3>विकासखंड वार कर्मचारी सारांश (Block-wise Report)</h3>
+            </div>
+            <div class="card-body table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>क्र.</th>
+                    <th>विकासखंड (Block)</th>
+                    <th>DDO कोड</th>
+                    <th class="text-center">संकुल</th>
+                    <th class="text-center">विद्यालय</th>
+                    <th class="text-center">नियमित</th>
+                    <th class="text-center">अनियमित</th>
+                    <th class="text-center">पुरुष</th>
+                    <th class="text-center">महिला</th>
+                    <th class="text-center">SC</th>
+                    <th class="text-center">ST</th>
+                    <th class="text-center">OBC</th>
+                    <th class="text-center">GEN</th>
+                    <th class="text-center">कुल</th>
+                    <th class="text-center">CGE</th>
+                  </tr>
+                </thead>
+                <tbody id="repBlockTbody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- VIEW 4: OFFICIAL CGE FORMAT (FORM 1 & FORM 2) -->
+      <section id="view-cge" class="view-section">
+        <div class="card no-print">
+          <div class="card-header">
+            <h3>CGE प्रपत्र-01 एवं प्रपत्र-02 (गोश्वारा) जनरेटर</h3>
+            <div style="display:flex; gap:8px; flex-wrap:wrap;">
+              <button class="btn btn-primary" id="btnDownloadPdf" onclick="downloadCgePdf()">📥 PDF डाउनलोड (.pdf)</button>
+              <button class="btn btn-accent" onclick="downloadCgeXlsx()">📊 Excel डाउनलोड (.xlsx)</button>
+              <button class="btn" onclick="downloadCgeCsv('form1')">📄 Form-1 CSV</button>
+              <button class="btn" onclick="downloadCgeCsv('form2')">📄 Form-2 CSV</button>
+              <button class="btn" onclick="window.print()">🖨️ प्रिंट करें</button>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="filter-bar">
+              <div class="form-group">
+                <label>रिपोर्ट स्तर (Report Level)</label>
+                <select id="cgeScope" class="form-control">
+                  <option value="district">जिला स्तर (District - All)</option>
+                  <option value="block">विकासखंड स्तर (Block-wise)</option>
+                  <option value="sankul">संकुल स्तर (Sankul-wise)</option>
+                  <option value="school">विद्यालय स्तर (School-wise)</option>
+                </select>
+              </div>
+              <div class="form-group" id="cgeBlockWrap" style="display:none;">
+                <label>विकासखंड चुनें (Block)</label>
+                <select id="cgeBlockId" class="form-control"></select>
+              </div>
+              <div class="form-group" id="cgeSankulWrap" style="display:none;">
+                <label>संकुल चुनें (Sankul)</label>
+                <select id="cgeSankulId" class="form-control"></select>
+              </div>
+              <div class="form-group" id="cgeSchoolWrap" style="display:none;">
+                <label>विद्यालय चुनें (School)</label>
+                <select id="cgeSchoolId" class="form-control"></select>
+              </div>
+              <div class="form-group">
+                <label>दिखाएं (Display)</label>
+                <select id="cgeDisplayMode" class="form-control">
+                  <option value="both">प्रपत्र-01 एवं प्रपत्र-02 दोनों</option>
+                  <option value="form1">केवल प्रपत्र-01 (Form 1)</option>
+                  <option value="form2">केवल प्रपत्र-02 (गोश्वारा)</option>
+                </select>
+              </div>
+            </div>
+            <div id="cgeVerifyBanner" class="banner success" style="margin-bottom:0;"></div>
+          </div>
+        </div>
+
+        <div id="cgePreviewContainer"></div>
+      </section>
+
+      <!-- VIEW 5: MASTER DATA -->
+      <section id="view-masters" class="view-section">
+        <div class="tabs">
+          <button class="tab-btn active" data-master-tab="schools">🏫 विद्यालय (Schools)</button>
+          <button class="tab-btn" data-master-tab="sankuls">🏢 संकुल (Sankuls)</button>
+          <button class="tab-btn" data-master-tab="blocks">🗺️ विकासखंड (Blocks)</button>
+        </div>
+
+        <div id="master-schools" class="master-pane">
+          <div class="card">
+            <div class="card-header"><h3>नया विद्यालय जोड़ें / संपादित करें</h3></div>
+            <div class="card-body">
+              <form id="schoolForm" class="form-grid">
+                <input type="hidden" id="schEditId" />
+                <div class="form-group">
+                  <label>विकासखंड (Block) <span class="req">*</span></label>
+                  <select id="schBlockId" class="form-control" required></select>
+                </div>
+                <div class="form-group">
+                  <label>संकुल (Sankul) <span class="req">*</span></label>
+                  <select id="schSankulId" class="form-control" required></select>
+                </div>
+                <div class="form-group">
+                  <label>विद्यालय का नाम <span class="req">*</span></label>
+                  <input type="text" id="schName" class="form-control" required placeholder="शास. प्रा. शा. ..." />
+                </div>
+                <div class="form-group">
+                  <label>UDISE कोड</label>
+                  <input type="text" id="schUdise" class="form-control" placeholder="11-digit UDISE" />
+                </div>
+                <div class="form-group">
+                  <label>विद्यालय स्तर</label>
+                  <select id="schType" class="form-control">
+                    <option value="Primary">प्राथमिक (Primary)</option>
+                    <option value="Middle">पूर्व माध्यमिक (Middle)</option>
+                    <option value="High School">हाई स्कूल (High School)</option>
+                    <option value="Higher Secondary">उच्चतर माध्यमिक (Higher Secondary)</option>
+                    <option value="Office">कार्यालय (Office)</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label>DDO कोड (वैकल्पिक)</label>
+                  <input type="text" id="schDdo" class="form-control" />
+                </div>
+                <div class="form-group">
+                  <label>संस्था प्रमुख का नाम</label>
+                  <input type="text" id="schHead" class="form-control" />
+                </div>
+                <div class="form-group" style="justify-content:flex-end; flex-direction:row; align-items:flex-end; gap:8px;">
+                  <button type="submit" class="btn btn-primary" id="schSubmitBtn">विद्यालय सुरक्षित करें</button>
+                  <button type="button" class="btn" onclick="resetSchoolForm()">रीसेट</button>
+                </div>
+              </form>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header"><h3>पंजीकृत विद्यालय सूची</h3></div>
+            <div class="card-body table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>क्र.</th><th>विद्यालय का नाम</th><th>UDISE</th><th>प्रकार</th><th>संकुल</th><th>विकासखंड</th><th>संस्था प्रमुख</th><th class="text-center">क्रिया</th>
+                  </tr>
+                </thead>
+                <tbody id="masterSchoolsTbody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div id="master-sankuls" class="master-pane" style="display:none;">
+          <div class="card">
+            <div class="card-header"><h3>नया संकुल जोड़ें / संपादित करें</h3></div>
+            <div class="card-body">
+              <form id="sankulForm" class="form-grid">
+                <input type="hidden" id="snkEditId" />
+                <div class="form-group">
+                  <label>विकासखंड (Block) <span class="req">*</span></label>
+                  <select id="snkBlockId" class="form-control" required></select>
+                </div>
+                <div class="form-group">
+                  <label>संकुल का नाम <span class="req">*</span></label>
+                  <input type="text" id="snkName" class="form-control" required />
+                </div>
+                <div class="form-group">
+                  <label>संकुल कोड</label>
+                  <input type="text" id="snkCode" class="form-control" />
+                </div>
+                <div class="form-group">
+                  <label>DDO कोड</label>
+                  <input type="text" id="snkDdo" class="form-control" />
+                </div>
+                <div class="form-group">
+                  <label>संकुल समन्वयक का नाम</label>
+                  <input type="text" id="snkCoord" class="form-control" />
+                </div>
+                <div class="form-group">
+                  <label>सम्पर्क नम्बर</label>
+                  <input type="text" id="snkContact" class="form-control" />
+                </div>
+                <div class="form-group">
+                  <label>ई-मेल आई.डी.</label>
+                  <input type="email" id="snkEmail" class="form-control" />
+                </div>
+                <div class="form-group" style="justify-content:flex-end; flex-direction:row; align-items:flex-end; gap:8px;">
+                  <button type="submit" class="btn btn-primary" id="snkSubmitBtn">संकुल सुरक्षित करें</button>
+                  <button type="button" class="btn" onclick="resetSankulForm()">रीसेट</button>
+                </div>
+              </form>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header"><h3>पंजीकृत संकुल सूची</h3></div>
+            <div class="card-body table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>क्र.</th><th>संकुल का नाम</th><th>विकासखंड</th><th>DDO कोड</th><th>समन्वयक</th><th>सम्पर्क / ई-मेल</th><th class="text-center">क्रिया</th>
+                  </tr>
+                </thead>
+                <tbody id="masterSankulsTbody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div id="master-blocks" class="master-pane" style="display:none;">
+          <div class="card">
+            <div class="card-header"><h3>नया विकासखंड जोड़ें / संपादित करें</h3></div>
+            <div class="card-body">
+              <form id="blockForm" class="form-grid">
+                <input type="hidden" id="blkEditId" />
+                <div class="form-group">
+                  <label>विकासखंड का नाम <span class="req">*</span></label>
+                  <input type="text" id="blkName" class="form-control" required />
+                </div>
+                <div class="form-group">
+                  <label>विकासखंड कोड</label>
+                  <input type="text" id="blkCode" class="form-control" />
+                </div>
+                <div class="form-group">
+                  <label>DDO कोड</label>
+                  <input type="text" id="blkDdo" class="form-control" />
+                </div>
+                <div class="form-group">
+                  <label>सम्पर्क नम्बर</label>
+                  <input type="text" id="blkContact" class="form-control" />
+                </div>
+                <div class="form-group">
+                  <label>ई-मेल आई.डी.</label>
+                  <input type="email" id="blkEmail" class="form-control" />
+                </div>
+                <div class="form-group" style="justify-content:flex-end; flex-direction:row; align-items:flex-end; gap:8px;">
+                  <button type="submit" class="btn btn-primary" id="blkSubmitBtn">विकासखंड सुरक्षित करें</button>
+                  <button type="button" class="btn" onclick="resetBlockForm()">रीसेट</button>
+                </div>
+              </form>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header"><h3>पंजीकृत विकासखंड सूची</h3></div>
+            <div class="card-body table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>क्र.</th><th>विकासखंड का नाम</th><th>कोड</th><th>DDO कोड</th><th>सम्पर्क / ई-मेल</th><th class="text-center">क्रिया</th>
+                  </tr>
+                </thead>
+                <tbody id="masterBlocksTbody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- VIEW 6: SETTINGS & BACKUP -->
+      <section id="view-settings" class="view-section">
+        <div class="card">
+          <div class="card-header"><h3>CGE गणना एवं कार्यालय सेटिंग्स</h3></div>
+          <div class="card-body">
+            <form id="settingsForm" class="form-grid">
+              <div class="form-group">
+                <label>जिला का नाम (District)</label>
+                <input type="text" id="setDistrict" class="form-control" />
+              </div>
+              <div class="form-group">
+                <label>नियोजन गणना तिथि (Census As-on Date)</label>
+                <input type="text" id="setCensusDate" class="form-control" list="censusDateSuggestions" />
+                <datalist id="censusDateSuggestions">
+                  <option value="31 मार्च, 2024"></option>
+                  <option value="31 मार्च, 2025"></option>
+                  <option value="31 मार्च, 2026"></option>
+                </datalist>
+              </div>
+              <div class="form-group">
+                <label>विभाग का नाम (Department)</label>
+                <input type="text" id="setDepartment" class="form-control" />
+              </div>
+              <div class="form-group">
+                <label>डिफ़ॉल्ट ई-मेल आई.डी.</label>
+                <input type="email" id="setEmail" class="form-control" />
+              </div>
+              <div class="form-group">
+                <label>डिफ़ॉल्ट सम्पर्क नम्बर</label>
+                <input type="text" id="setContact" class="form-control" />
+              </div>
+              <div class="form-group" style="justify-content:flex-end; align-items:flex-start;">
+                <button type="submit" class="btn btn-primary">सेटिंग्स सुरक्षित करें</button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header"><h3>डेटाबेस बैकअप एवं रिस्टोर</h3></div>
+          <div class="card-body" style="display:flex; gap:14px; flex-wrap:wrap; align-items:center;">
+            <a href="/api/backup" class="btn btn-accent">💾 बैकअप डाउनलोड करें (.json)</a>
+            <div style="display:flex; align-items:center; gap:8px;">
+              <input type="file" id="restoreFile" accept=".json" class="form-control" style="width:auto;" />
+              <button class="btn btn-danger" onclick="restoreBackup()">♻️ बैकअप रिस्टोर करें</button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- MODAL: ADD / EDIT STAFF (CGE FORM 1) -->
+  <div id="staffModal" class="modal-backdrop">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 id="staffModalTitle">नया कर्मचारी प्रविष्टि (CGE प्रपत्र-01)</h3>
+        <button class="btn btn-sm" onclick="closeStaffModal()">✕</button>
+      </div>
+      <form id="staffForm">
+        <div class="modal-body">
+          <input type="hidden" id="stEditId" />
+          <div class="form-grid">
+            <div class="form-group">
+              <label>विकासखंड (Block) <span class="req">*</span></label>
+              <select id="stBlockId" class="form-control" required></select>
+            </div>
+            <div class="form-group">
+              <label>संकुल (Sankul) <span class="req">*</span></label>
+              <select id="stSankulId" class="form-control" required></select>
+            </div>
+            <div class="form-group">
+              <label>विद्यालय (School) <span class="req">*</span></label>
+              <select id="stSchoolId" class="form-control" required></select>
+            </div>
+
+            <div class="form-group">
+              <label>(2) Employee Code <span class="req">*</span></label>
+              <input type="text" id="stEmpCode" class="form-control" required placeholder="e.g. CG220012" />
+            </div>
+            <div class="form-group">
+              <label>(3) Employee Name <span class="req">*</span></label>
+              <input type="text" id="stEmpName" class="form-control" required placeholder="कर्मचारी का पूरा नाम" />
+            </div>
+            <div class="form-group">
+              <label>(4) Gender <span class="req">*</span></label>
+              <select id="stGender" class="form-control" required>
+                <option value="M">M (पुरुष / Male)</option>
+                <option value="F">F (महिला / Female)</option>
+                <option value="Transgender">Transgender</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label>(5) Caste <span class="req">*</span></label>
+              <select id="stCaste" class="form-control" required>
+                <option value="SC">SC</option>
+                <option value="ST">ST</option>
+                <option value="OBC">OBC</option>
+                <option value="Gen.">Gen.</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>(6) Date of Birth (जन्मतिथि)</label>
+              <input type="date" id="stDob" class="form-control" />
+            </div>
+            <div class="form-group">
+              <label>(7) Date of First Joining (प्रथम नियुक्ति)</label>
+              <input type="date" id="stDoj" class="form-control" />
+            </div>
+
+            <div class="form-group">
+              <label>(8) Designation (पदनाम) <span class="req">*</span></label>
+              <input type="text" id="stDesignation" class="form-control" required list="designationList" placeholder="e.g. Lecturer (LB), Teacher, Peon" />
+              <datalist id="designationList">
+                <option value="Principal"></option>
+                <option value="Lecturer"></option>
+                <option value="Lecturer (LB)"></option>
+                <option value="Headmaster (Middle)"></option>
+                <option value="Headmaster (Primary)"></option>
+                <option value="Teacher"></option>
+                <option value="Teacher (LB)"></option>
+                <option value="Assistant Teacher"></option>
+                <option value="Assistant Teacher (LB)"></option>
+                <option value="Assistant Grade-II"></option>
+                <option value="Assistant Grade-III"></option>
+                <option value="Lab Assistant"></option>
+                <option value="Peon"></option>
+                <option value="Part Time Sweeper"></option>
+                <option value="COOK ( रसोईया ) मानसेवी"></option>
+                <option value="Atithi Shikshak"></option>
+              </datalist>
+            </div>
+            <div class="form-group">
+              <label>(9) Class (श्रेणी) <span class="req">*</span></label>
+              <select id="stClass" class="form-control" required>
+                <option value="I">Class I (प्रथम श्रेणी)</option>
+                <option value="II">Class II (द्वितीय श्रेणी)</option>
+                <option value="III (Executive)">Class III (Executive / कार्यपालिक)</option>
+                <option value="III (Ministerial)">Class III (Ministerial / अनुसचिवीय)</option>
+                <option value="IV">Class IV (चतुर्थ श्रेणी)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>(10) Level in Pay Matrix / Grade Pay</label>
+              <input type="text" id="stPayLevel" class="form-control" list="payLevelList" placeholder="e.g. Level-8 / 4200" />
+              <datalist id="payLevelList">
+                <option value="Level-1"></option><option value="Level-2"></option><option value="Level-3"></option>
+                <option value="Level-4"></option><option value="Level-5"></option><option value="Level-6"></option>
+                <option value="Level-7"></option><option value="Level-8"></option><option value="Level-9"></option>
+                <option value="Level-10"></option><option value="Level-11"></option><option value="Level-12"></option>
+                <option value="Level-13"></option><option value="Collector Rate"></option><option value="Fixed"></option>
+              </datalist>
+            </div>
+
+            <div class="form-group">
+              <label>(11) Type of Employment <span class="req">*</span></label>
+              <select id="stEmpType" class="form-control" required onchange="toggleEmploymentFields()">
+                <option value="Regular">Regular (नियमित)</option>
+                <option value="Non Regular">Non Regular (अनियमित)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>(12) If Regular: Permanent / Temporary</label>
+              <select id="stRegStatus" class="form-control">
+                <option value="Permanent">Permanent (स्थायी)</option>
+                <option value="Temporary">Temporary (अस्थायी)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>(13) If Non Regular: Specify</label>
+              <select id="stNonRegType" class="form-control" disabled>
+                <option value="">-- चुनें --</option>
+                <option value="Work Charged">Work Charged (कार्यभारित)</option>
+                <option value="Contingency">Contingency (आकस्मिक निधि)</option>
+                <option value="Daily Wages">Daily Wages (दैनिक वेतन भोगी)</option>
+                <option value="Collector Rate">Collector Rate (कलेक्टर दर)</option>
+                <option value="Contractual">Contractual (संविदा)</option>
+                <option value="Placement">Placement (प्लेसमेंट)</option>
+                <option value="Honorary">Honorary (मानसेवी)</option>
+                <option value="Part time">Part time (अंशकालीन)</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label>(14) Is Post Sanctioned (Y/N) <span class="req">*</span></label>
+              <select id="stSanctioned" class="form-control" required>
+                <option value="Y">Y (हाँ / Yes)</option>
+                <option value="N">N (नहीं / No)</option>
+              </select>
+            </div>
+            <div class="form-group" style="grid-column: span 2;">
+              <label>(15) Remark If any (रिमार्क)</label>
+              <input type="text" id="stRemark" class="form-control" placeholder="कोई विशेष टिप्पणी हो तो लिखें" />
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn" onclick="closeStaffModal()">रद्द करें</button>
+          <button type="submit" class="btn btn-primary">कर्मचारी सुरक्षित करें</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: EXCEL (.XLS / .XLSX / .CSV) UPLOAD AT SCHOOL & SANKUL LEVEL -->
+  <div id="importModal" class="modal-backdrop">
+    <div class="modal" style="max-width:700px;">
+      <div class="modal-header">
+        <h3>📤 Excel (.xls / .xlsx / .csv) डेटा अपलोड</h3>
+        <button class="btn btn-sm" onclick="closeImportModal()">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="tabs" style="margin-bottom:14px;">
+          <button type="button" class="tab-btn active" id="impTabSchool" onclick="setImportLevel('school')">🏫 विद्यालय स्तर अपलोड (School Level)</button>
+          <button type="button" class="tab-btn" id="impTabSankul" onclick="setImportLevel('sankul')">🏢 संकुल स्तर अपलोड (Sankul Level)</button>
+        </div>
+
+        <p id="impLevelDesc" style="margin-top:0; font-size:13px; color:var(--text-muted);">
+          विकासखंड, संकुल और विद्यालय चुनें, फिर <strong>.xls, .xlsx या .csv</strong> फ़ाइल अपलोड करें। आप सीधे CGE प्रपत्र-01 की Excel फ़ाइल भी अपलोड कर सकते हैं।
+        </p>
+
+        <div class="form-grid" style="margin-bottom:14px;">
+          <div class="form-group">
+            <label>विकासखंड (Block) <span class="req">*</span></label>
+            <select id="impBlockId" class="form-control"></select>
+          </div>
+          <div class="form-group">
+            <label>संकुल (Sankul) <span class="req">*</span></label>
+            <select id="impSankulId" class="form-control"></select>
+          </div>
+          <div class="form-group" id="impSchoolWrap">
+            <label>विद्यालय (School) <span class="req">*</span></label>
+            <select id="impSchoolId" class="form-control"></select>
+          </div>
+        </div>
+
+        <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap; margin-bottom:12px;">
+          <button type="button" class="btn btn-sm btn-accent" id="btnDownloadTemplate" onclick="downloadExcelTemplate()">📥 विद्यालय Excel टेम्पलेट (.xlsx)</button>
+          <input type="file" id="excelFileInput" accept=".xls,.xlsx,.csv" class="form-control" style="flex:1;" />
+        </div>
+        <div id="importPreviewMsg" style="font-size:13px; color:var(--emerald-800); font-weight:600;"></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn" onclick="closeImportModal()">बंद करें</button>
+        <button type="button" class="btn btn-primary" id="btnStartUpload" onclick="processExcelUpload()">📤 अपलोड एवं सेव करें</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast"></div>
+  <script src="/app.js"></script>
+</body>
+</html>
