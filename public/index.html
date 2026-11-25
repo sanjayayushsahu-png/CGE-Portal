@@ -361,6 +361,12 @@
 
       <!-- VIEW 4: OFFICIAL CGE FORMAT (FORM 1 & FORM 2) -->
       <section id="view-cge" class="view-section">
+        <div class="tabs no-print" id="cgeScopeTabs">
+          <button class="tab-btn active" data-cge-scope="district" onclick="setCgeScope('district')">🏛️ जिला स्तर (All)</button>
+          <button class="tab-btn" data-cge-scope="block" onclick="setCgeScope('block')">🗺️ विकासखंड वार (Block-wise)</button>
+          <button class="tab-btn" data-cge-scope="sankul" onclick="setCgeScope('sankul')">🏢 संकुल वार (Sankul-wise)</button>
+          <button class="tab-btn" data-cge-scope="school" onclick="setCgeScope('school')">🏫 विद्यालय वार (School-wise)</button>
+        </div>
         <div class="card no-print">
           <div class="card-header">
             <h3>CGE प्रपत्र-01 एवं प्रपत्र-02 (गोश्वारा) जनरेटर</h3>

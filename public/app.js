@@ -257,21 +257,47 @@ function syncImportSchools() {
   fillSelect(document.getElementById('impSchoolId'), schs, { placeholder: '-- विद्यालय चुनें --', preserve: false });
 }
 
-function syncCgeDropdowns() {
+function setCgeScope(scope) {
+  document.getElementById('cgeScope').value = scope;
+  syncCgeDropdowns(true);
+  loadCgeReport();
+}
+
+function syncCgeScopeTabs(scope) {
+  document.querySelectorAll('#cgeScopeTabs .tab-btn').forEach((btn) => {
+    btn.classList.toggle('active', btn.dataset.cgeScope === scope);
+  });
+}
+
+function syncCgeDropdowns(autoSelect = false) {
   const scope = document.getElementById('cgeScope').value;
+  syncCgeScopeTabs(scope);
   document.getElementById('cgeBlockWrap').style.display = (scope === 'block' || scope === 'sankul' || scope === 'school') ? 'flex' : 'none';
   document.getElementById('cgeSankulWrap').style.display = (scope === 'sankul' || scope === 'school') ? 'flex' : 'none';
   document.getElementById('cgeSchoolWrap').style.display = (scope === 'school') ? 'flex' : 'none';
 
-  const blk = document.getElementById('cgeBlockId').value;
-  const snks = blk ? state.sankuls.filter((s) => String(s.block_id) === String(blk)) : state.sankuls;
-  fillSelect(document.getElementById('cgeSankulId'), snks, { placeholder: '-- संकुल चुनें --' });
+  const blkEl = document.getElementById('cgeBlockId');
+  if (autoSelect && scope === 'block' && !blkEl.value && state.blocks.length) {
+    blkEl.value = String(state.blocks[0].id);
+  }
 
-  const snk = document.getElementById('cgeSankulId').value;
+  const blk = blkEl.value;
+  const snks = blk ? state.sankuls.filter((s) => String(s.block_id) === String(blk)) : state.sankuls;
+  const snkEl = document.getElementById('cgeSankulId');
+  fillSelect(snkEl, snks, { placeholder: '-- संकुल चुनें --' });
+  if (autoSelect && (scope === 'sankul' || scope === 'school') && !snkEl.value && snks.length) {
+    snkEl.value = String(snks[0].id);
+  }
+
+  const snk = snkEl.value;
   let schs = state.schools;
   if (blk) schs = schs.filter((s) => String(s.block_id) === String(blk));
   if (snk) schs = schs.filter((s) => String(s.sankul_id) === String(snk));
-  fillSelect(document.getElementById('cgeSchoolId'), schs, { placeholder: '-- विद्यालय चुनें --' });
+  const schEl = document.getElementById('cgeSchoolId');
+  fillSelect(schEl, schs, { placeholder: '-- विद्यालय चुनें --' });
+  if (autoSelect && scope === 'school' && !schEl.value && schs.length) {
+    schEl.value = String(schs[0].id);
+  }
 }
 
 // --- DASHBOARD BENTO RENDERING ---
@@ -1219,9 +1245,9 @@ function bindFormEvents() {
   document.getElementById('repSchSankul').addEventListener('change', renderReportTables);
   document.getElementById('repSnkBlock').addEventListener('change', renderReportTables);
 
-  document.getElementById('cgeScope').addEventListener('change', () => { syncCgeDropdowns(); loadCgeReport(); });
-  document.getElementById('cgeBlockId').addEventListener('change', () => { syncCgeDropdowns(); loadCgeReport(); });
-  document.getElementById('cgeSankulId').addEventListener('change', () => { syncCgeDropdowns(); loadCgeReport(); });
+  document.getElementById('cgeScope').addEventListener('change', () => { syncCgeDropdowns(true); loadCgeReport(); });
+  document.getElementById('cgeBlockId').addEventListener('change', () => { syncCgeDropdowns(true); loadCgeReport(); });
+  document.getElementById('cgeSankulId').addEventListener('change', () => { syncCgeDropdowns(true); loadCgeReport(); });
   document.getElementById('cgeSchoolId').addEventListener('change', loadCgeReport);
   document.getElementById('cgeDisplayMode').addEventListener('change', renderCgePreview);
 

@@ -72,8 +72,8 @@ function resolveCgeReport(searchParams) {
     signatureLabel: 'कार्यालय प्रमुख का हस्ताक्षर एवं सील'
   };
 
-  if (scope === 'block' && id) {
-    const block = db.prepare('SELECT * FROM blocks WHERE id = ?').get(id);
+  if (scope === 'block') {
+    const block = id ? db.prepare('SELECT * FROM blocks WHERE id = ?').get(id) : null;
     if (block) {
       filters.block_id = block.id;
       meta.scopeLabel = 'विकासखंड / कार्यालय';
@@ -82,13 +82,17 @@ function resolveCgeReport(searchParams) {
       meta.email = block.email || meta.email;
       meta.contact = block.contact || meta.contact;
       meta.signatureLabel = 'विकासखंड शिक्षा अधिकारी / कार्यालय प्रमुख का हस्ताक्षर एवं सील';
+    } else {
+      meta.scopeLabel = 'विकासखंड / कार्यालय';
+      meta.entityName = 'कोई विकासखंड चयनित नहीं';
+      return { meta, staff: [], form2: computeForm2([]) };
     }
-  } else if (scope === 'sankul' && id) {
-    const sankul = db.prepare(`
+  } else if (scope === 'sankul') {
+    const sankul = id ? db.prepare(`
       SELECT sn.*, b.name AS block_name
       FROM sankuls sn JOIN blocks b ON sn.block_id = b.id
       WHERE sn.id = ?
-    `).get(id);
+    `).get(id) : null;
     if (sankul) {
       filters.sankul_id = sankul.id;
       meta.scopeLabel = 'संकुल';
@@ -97,15 +101,19 @@ function resolveCgeReport(searchParams) {
       meta.email = sankul.email || meta.email;
       meta.contact = sankul.contact || meta.contact;
       meta.signatureLabel = 'संकुल समन्वयक के हस्ताक्षर एवं सील';
+    } else {
+      meta.scopeLabel = 'संकुल';
+      meta.entityName = 'कोई संकुल चयनित नहीं';
+      return { meta, staff: [], form2: computeForm2([]) };
     }
-  } else if (scope === 'school' && id) {
-    const school = db.prepare(`
+  } else if (scope === 'school') {
+    const school = id ? db.prepare(`
       SELECT sc.*, sn.name AS sankul_name, sn.ddo_code AS sankul_ddo, b.name AS block_name
       FROM schools sc
       JOIN sankuls sn ON sc.sankul_id = sn.id
       JOIN blocks b ON sc.block_id = b.id
       WHERE sc.id = ?
-    `).get(id);
+    `).get(id) : null;
     if (school) {
       filters.school_id = school.id;
       meta.scopeLabel = 'विद्यालय';
@@ -114,6 +122,10 @@ function resolveCgeReport(searchParams) {
       meta.email = school.email || meta.email;
       meta.contact = school.contact || meta.contact;
       meta.signatureLabel = 'संस्था प्रमुख (प्राचार्य / प्रधानपाठक) का हस्ताक्षर एवं सील';
+    } else {
+      meta.scopeLabel = 'विद्यालय';
+      meta.entityName = 'कोई विद्यालय चयनित नहीं';
+      return { meta, staff: [], form2: computeForm2([]) };
     }
   }
 
