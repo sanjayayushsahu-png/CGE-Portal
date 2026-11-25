@@ -187,6 +187,14 @@ const FORM2_CATEGORIES = [
 ];
 
 function classifyForForm2(emp) {
+  const desig = String(emp.designation || '').trim();
+  if (/\bcook\b|रसोईया|रसोइया|मानसेवी/i.test(desig)) {
+    return 'HONORARY';
+  }
+  if (/part[\s-]*time|paert[\s-]*time|अंशकालीन/i.test(desig)) {
+    return 'PART_TIME';
+  }
+
   if (emp.employment_type === 'Regular') {
     switch (emp.emp_class) {
       case 'I': return 'CLASS_I';

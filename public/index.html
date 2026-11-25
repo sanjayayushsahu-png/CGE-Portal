@@ -702,7 +702,7 @@
 
             <div class="form-group">
               <label>(8) Designation (पदनाम) <span class="req">*</span></label>
-              <input type="text" id="stDesignation" class="form-control" required list="designationList" placeholder="e.g. Lecturer (LB), Teacher, Peon" />
+              <input type="text" id="stDesignation" class="form-control" required list="designationList" placeholder="e.g. Lecturer (LB), Teacher, Peon" oninput="onDesignationChange()" onchange="onDesignationChange()" />
               <datalist id="designationList">
                 <option value="Principal"></option>
                 <option value="Lecturer"></option>

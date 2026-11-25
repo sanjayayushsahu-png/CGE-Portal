@@ -724,9 +724,19 @@ async function importExcelForLevel({ buffer, filename, level, block_id, sankul_i
         }
       }
 
-      const empType = normEmploymentType(getCell(r, 'employment_type'));
-      const regStatus = empType === 'Regular' ? normRegularStatus(getCell(r, 'regular_status')) : '';
-      const nonRegType = empType === 'Non Regular' ? normNonRegularType(getCell(r, 'non_regular_type')) : '';
+      let empType = normEmploymentType(getCell(r, 'employment_type'));
+      let regStatus = empType === 'Regular' ? normRegularStatus(getCell(r, 'regular_status')) : '';
+      let nonRegType = empType === 'Non Regular' ? normNonRegularType(getCell(r, 'non_regular_type')) : '';
+
+      if (/\bcook\b|रसोईया|रसोइया|मानसेवी/i.test(desigClean)) {
+        empType = 'Non Regular';
+        regStatus = '';
+        nonRegType = 'Honorary';
+      } else if (/part[\s-]*time|paert[\s-]*time|अंशकालीन/i.test(desigClean)) {
+        empType = 'Non Regular';
+        regStatus = '';
+        nonRegType = 'Part time';
+      }
 
       insertStaffStmt.run(
         Number(block_id),

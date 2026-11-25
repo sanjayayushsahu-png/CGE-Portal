@@ -606,6 +606,21 @@ function resetStaffFilters() {
   loadStaffList();
 }
 
+function onDesignationChange() {
+  const desig = (document.getElementById('stDesignation').value || '').trim();
+  const empTypeEl = document.getElementById('stEmpType');
+  const nonRegEl = document.getElementById('stNonRegType');
+  if (/\bcook\b|रसोईया|रसोइया|मानसेवी/i.test(desig)) {
+    empTypeEl.value = 'Non Regular';
+    toggleEmploymentFields();
+    nonRegEl.value = 'Honorary';
+  } else if (/part[\s-]*time|paert[\s-]*time|अंशकालीन/i.test(desig)) {
+    empTypeEl.value = 'Non Regular';
+    toggleEmploymentFields();
+    nonRegEl.value = 'Part time';
+  }
+}
+
 function toggleEmploymentFields() {
   const typ = document.getElementById('stEmpType').value;
   const reg = document.getElementById('stRegStatus');
